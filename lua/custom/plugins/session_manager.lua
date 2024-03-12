@@ -1,4 +1,3 @@
-
 return {
   'Shatur/neovim-session-manager',
   dependencies = {
@@ -6,7 +5,7 @@ return {
   },
   config = function()
     -- local config = require 'session_manager.config'
-    local Path = require 'plenary.path'
+    -- local Path = require 'plenary.path'
 
     require('session_manager').setup {
       -- session_dir = Path:new(vim.fn.stdpath('data'), 'sessions'),
