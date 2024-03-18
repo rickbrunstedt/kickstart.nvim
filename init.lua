@@ -360,6 +360,17 @@ require('lazy').setup({
             require('telescope.themes').get_dropdown(),
           },
         },
+        defaults = {
+          mappings = {
+            -- i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+            i = {
+              ['<c-d>'] = require('telescope.actions').delete_buffer,
+            },
+            n = {
+              ['<c-d>'] = require('telescope.actions').delete_buffer,
+            },
+          },
+        },
       }
 
       -- Enable telescope extensions, if they are installed
@@ -387,7 +398,8 @@ require('lazy').setup({
         -- You can pass additional configuration to telescope to change theme, layout, etc.
         builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
           winblend = 10,
-          previewer = false,
+          -- previewer = false,
+          previewer = true,
         })
       end, { desc = '[/] Fuzzily search in current buffer' })
 
