@@ -364,10 +364,10 @@ require('lazy').setup({
           mappings = {
             -- i = { ['<c-enter>'] = 'to_fuzzy_refine' },
             i = {
-              ['<c-d>'] = require('telescope.actions').delete_buffer,
+              ['<c-b>'] = require('telescope.actions').delete_buffer,
             },
             n = {
-              ['<c-d>'] = require('telescope.actions').delete_buffer,
+              ['<c-b>'] = require('telescope.actions').delete_buffer,
             },
           },
         },
