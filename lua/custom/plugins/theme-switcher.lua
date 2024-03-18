@@ -13,7 +13,7 @@
 -- print(dark)
 -- print(light)
 
-local dark_theme = 'tokyonight'
+local dark_theme = 'tokyonight-night'
 local light_theme = 'tokyonight-day'
 Is_light_theme = false
 
