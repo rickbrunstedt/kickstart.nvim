@@ -5,4 +5,6 @@
 
 vim.opt.relativenumber = true
 
+vim.keymap.set('n', '<leader>q', ':bd<CR>', { desc = '[Q]uit buffer' })
+
 return {}
