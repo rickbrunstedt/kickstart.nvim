@@ -12,10 +12,8 @@ end
 
 local function saveAll()
   if autoSaveOn then
-    vim.cmd 'wa'
-    print 'Saved all files'
-    -- vim.cmd 'w'
-    -- vim.cmd 'silent! wa'
+    vim.cmd 'w'
+    -- print 'Saved all files'
   end
 end
 
@@ -36,13 +34,5 @@ vim.api.nvim_create_autocmd({ 'FocusLost' }, {
 vim.keymap.set('n', '<leader>wa', toggleAutoSave, {
   desc = 'Toggle [A]uto save',
 })
-
--- Having this as a test havent done anything yet..
--- vim.api.nvim_create_autocmd('User', {
---   pattern = 'AutoSave',
---   callback = function()
---     print 'My Plugin Works!'
---   end,
--- })
 
 return {}

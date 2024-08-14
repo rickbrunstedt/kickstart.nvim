@@ -6,5 +6,7 @@
 vim.opt.relativenumber = true
 
 vim.keymap.set('n', '<leader>q', ':bd<CR>', { desc = '[Q]uit buffer' })
+vim.keymap.set('n', '<leader>ww', ':w<CR>', { desc = '[w]rite file' })
+vim.keymap.set('n', '<leader>wW', ':wa<CR>', { desc = '[W]rite all files' })
 
 return {}
