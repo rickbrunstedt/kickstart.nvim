@@ -188,8 +188,8 @@ vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower win
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- My custom keymaps
-vim.keymap.set('n', '<leader>ff', ':w<CR>', { desc = '[S]ave file' })
-vim.keymap.set('n', '<leader>fa', ':wa<CR>', { desc = 'Save [A]ll file' })
+-- vim.keymap.set('n', '<leader>ff', ':w<CR>', { desc = '[S]ave file' })
+-- vim.keymap.set('n', '<leader>fa', ':wa<CR>', { desc = 'Save [A]ll file' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
