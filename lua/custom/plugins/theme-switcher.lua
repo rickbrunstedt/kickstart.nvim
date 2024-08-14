@@ -13,8 +13,8 @@
 -- print(dark)
 -- print(light)
 
-local dark_theme = 'tokyonight-night'
-local light_theme = 'tokyonight-day'
+local dark_theme = 'catppuccin-frappe'
+local light_theme = 'catppuccin-latte'
 Is_light_theme = false
 
 local function setTheme(light)
@@ -53,4 +53,9 @@ require('which-key').register {
   ['<leader>wt'] = { name = '[T]themes', _ = 'which_key_ignore' },
 }
 
-return {}
+return {
+  'catppuccin/nvim',
+  'rmehri01/onenord.nvim',
+  name = 'catppuccin',
+  priority = 1000,
+}
