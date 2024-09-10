@@ -1,13 +1,15 @@
 return {
   'ThePrimeagen/harpoon',
   config = function()
-    require('which-key').register {
-      ['<leader>1'] = { name = 'which_key_ignore' },
-      ['<leader>2'] = { name = 'which_key_ignore' },
-      ['<leader>3'] = { name = 'which_key_ignore' },
-      ['<leader>4'] = { name = 'which_key_ignore' },
-      ['<leader>a'] = { name = '[A]dd harpoon mark', _ = 'which_key_ignore' },
-      ['<leader>h'] = { name = '[H]arpoon menu', _ = 'which_key_ignore' },
+    require('which-key').add {
+      { "<leader>1", group = "which_key_ignore" },
+      { "<leader>2", group = "which_key_ignore" },
+      { "<leader>3", group = "which_key_ignore" },
+      { "<leader>4", group = "which_key_ignore" },
+      { "<leader>a", group = "[A]dd harpoon mark" },
+      { "<leader>a_", hidden = true },
+      { "<leader>h", group = "[H]arpoon menu" },
+      { "<leader>h_", hidden = true },
     }
 
     local mark = require 'harpoon.mark'
