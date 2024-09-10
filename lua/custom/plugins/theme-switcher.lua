@@ -49,8 +49,9 @@ vim.keymap.set('n', '<leader>wtd', setDarkTheme, { desc = '[D]ark theme' })
 vim.keymap.set('n', '<leader>wtt', toggleTheme, { desc = '[T]oggle theme' })
 vim.keymap.set('n', '<leader>wts', themeSwitcher, { desc = '[S]witch theme' })
 
-require('which-key').register {
-  ['<leader>wt'] = { name = '[T]themes', _ = 'which_key_ignore' },
+require('which-key').add {
+  { "<leader>wt", group = "[T]themes" },
+  { "<leader>wt_", hidden = true },
 }
 
 return {
