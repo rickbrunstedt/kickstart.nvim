@@ -393,17 +393,6 @@ require('lazy').setup({
             require('telescope.themes').get_dropdown(),
           },
         },
-        defaults = {
-          mappings = {
-            -- i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-            i = {
-              ['<c-b>'] = require('telescope.actions').delete_buffer,
-            },
-            n = {
-              ['<c-b>'] = require('telescope.actions').delete_buffer,
-            },
-          },
-        },
       }
 
       -- Enable Telescope extensions if they are installed
@@ -428,8 +417,7 @@ require('lazy').setup({
         -- You can pass additional configuration to Telescope to change the theme, layout, etc.
         builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
           winblend = 10,
-          -- previewer = false,
-          previewer = true,
+          previewer = false,
         })
       end, { desc = '[/] Fuzzily search in current buffer' })
 
@@ -941,7 +929,7 @@ require('lazy').setup({
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
-  { import = 'custom.plugins' },
+  -- { import = 'custom.plugins' },
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
