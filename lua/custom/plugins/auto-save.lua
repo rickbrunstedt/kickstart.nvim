@@ -10,9 +10,13 @@ local function toggleAutoSave()
   end
 end
 
+local conform = require 'conform'
+
 local function saveAll()
   if autoSaveOn then
     vim.cmd 'w'
+    conform.format()
+    -- vim.cmd ''
     -- print 'Saved all files'
   end
 end
