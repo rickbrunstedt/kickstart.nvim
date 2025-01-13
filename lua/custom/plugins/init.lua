@@ -18,11 +18,26 @@ vim.keymap.set('n', '<leader>e', show_error, {
   desc = 'Show [e]rrors',
 })
 
+-- Write buffer to file with 'Ctrl + s'
+vim.keymap.set('n', '<C-s>', ':update<CR>', { desc = 'Write buffer to file' })
+vim.keymap.set('v', '<C-s>', '<C-C>:update<CR>', { desc = 'Write buffer to file' })
+vim.keymap.set('i', '<C-s>', '<C-O>:update<CR>', { desc = 'Write buffer to file' })
+
 require('telescope').setup {
   pickers = {
     buffers = {
       ignore_current_buffer = true,
       sort_lastused = true,
+    },
+  },
+  defaults = {
+    mappings = {
+      i = {
+        ['<c-b>'] = require('telescope.actions').delete_buffer,
+      },
+      n = {
+        ['<c-b>'] = require('telescope.actions').delete_buffer,
+      },
     },
   },
 }

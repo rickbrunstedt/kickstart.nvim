@@ -4,6 +4,6 @@ return {
   build = 'cd formatter && npm ci && npm run build',
   opts = {
     on_save_enabled = true, -- If `true`, automatically enables on save sorting.
-    trim_spaces = true, -- If `true`, trim any extra spaces after sorting.
+    trim_spaces = false, -- If `true`, trim any extra spaces after sorting.
   },
 }
