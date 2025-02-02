@@ -45,8 +45,28 @@ local conform = {
       typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
       javascript = { 'prettierd', 'prettier', stop_after_first = true },
       javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+      markdown = { 'prettierd', 'prettier', stop_after_first = true },
     },
   },
+}
+
+local oil = {
+  'stevearc/oil.nvim',
+  ---@module 'oil'
+  ---@type oil.SetupOpts
+  opts = {
+    default_file_explorer = true,
+    view_options = {
+      show_hidden = true,
+    },
+    -- float = {
+    --   padding = 20,
+    -- },
+  },
+  dependencies = { { 'echasnovski/mini.icons', opts = {} } },
+  lazy = false,
+  vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' }),
+  vim.keymap.set('n', '<leader>tf', '<CMD>Oil --float<CR>', { desc = 'Toggle Oil directory' }),
 }
 
 local comment_ts_context = {
@@ -54,11 +74,6 @@ local comment_ts_context = {
   opts = {
     enable_autocmd = false,
   },
-  -- config = function()
-  --   require('ts_context_commentstring').setup {
-  --     enable_autocmd = false,
-  --   }
-  -- end,
 }
 
 local rayx_go = {
@@ -89,9 +104,11 @@ local codecompanion = {
     require('codecompanion').setup {
       strategies = {
         chat = {
+          -- adapter = 'openai',
           adapter = 'ollama',
         },
         inline = {
+          -- adapter = 'openai',
           adapter = 'ollama',
         },
       },
@@ -99,7 +116,7 @@ local codecompanion = {
         openai = function()
           return require('codecompanion.adapters').extend('openai', {
             env = {
-              api_key = '<api_key>',
+              api_key = os.getenv 'OPEN_API_KEY',
             },
             schema = {
               model = {
@@ -187,6 +204,9 @@ vim.keymap.set('i', '<C-s>', '<C-O>:update<CR>', { desc = 'Write buffer to file'
 vim.keymap.set('n', '<C-q>', ':bdelete<CR>', { desc = 'Delete buffer' })
 vim.keymap.set('v', '<C-q>', '<C-C>:bdelete<CR>', { desc = 'Delete buffer' })
 vim.keymap.set('i', '<C-q>', '<C-O>:bdelete<CR>', { desc = 'Delete buffer' })
+vim.keymap.set('n', '<leader>sF', function()
+  require('telescope.builtin').find_files { hidden = true }
+end, { desc = '[S]earch [F]iles (incl. hidden)' })
 
 return {
   colorscheme,
@@ -198,4 +218,5 @@ return {
   comment_nvim,
   toggleterm,
   codecompanion,
+  oil,
 }
