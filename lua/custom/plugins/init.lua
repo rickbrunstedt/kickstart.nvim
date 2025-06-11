@@ -1,7 +1,15 @@
+-- auto-session - Recommended setting is:
+vim.o.sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions'
+
 local auto_session = {
   'rmagatti/auto-session',
+  ---enables autocomplete for opts
   config = function()
+    ---@module "auto-session"
+    ---@type AutoSession.Config
     require('auto-session').setup {
+      lazy = false,
+      suppressed_dirs = { '~/', '~/Projects', '~/Downloads', '/', '~/.config' },
       session_lens = {
         buftypes_to_ignore = {},
         load_on_setup = true,
@@ -10,7 +18,6 @@ local auto_session = {
           border = true,
         },
       },
-      suppressed_dirs = { '~/', '~/Projects', '~/Downloads', '/' },
     }
     vim.keymap.set('n', '<Leader>wc', require('auto-session.session-lens').search_session, {
       noremap = true,
@@ -89,12 +96,45 @@ vim.api.nvim_create_user_command('TelescopeColorschemePreview', function()
   require('telescope.builtin').colorscheme { enable_preview = true }
 end, {})
 
-local colorscheme = {
+local theme = {
   'catppuccin/nvim',
   name = 'catppuccin',
-  priority = 1000,
+  priority = 999, -- Load early
+  lazy = false, -- Load immediately (important for colorscheme)
   config = function()
-    vim.cmd.colorscheme 'catppuccin-frappe'
+    require('catppuccin').setup {
+      flavour = 'frappe', -- latte, frappe, macchiato, mocha
+      background = {
+        light = 'latte',
+        dark = 'frappe',
+      },
+      transparent_background = false,
+      show_end_of_buffer = false,
+      term_colors = false,
+      dim_inactive = {
+        enabled = false,
+        shade = 'dark',
+        percentage = 0.15,
+      },
+      no_italic = false,
+      no_bold = false,
+      no_underline = false,
+      styles = {
+        comments = { 'italic' },
+        conditionals = { 'italic' },
+      },
+      integrations = {
+        cmp = true,
+        gitsigns = true,
+        nvimtree = true,
+        treesitter = true,
+        mini = {
+          enabled = true,
+        },
+      },
+    }
+
+    vim.cmd.colorscheme 'catppuccin'
   end,
 }
 
@@ -102,7 +142,7 @@ vim.opt.relativenumber = true
 
 -- Tab settings
 vim.o.expandtab = true -- Use spaces instead of tabs
-vim.o.tabstop = 2 -- Number of visual spaces per TAB
+vim.o.tabstop = 4 -- Number of visual spaces per TAB
 vim.o.softtabstop = 2 -- Number of spaces in tab when editing
 vim.o.shiftwidth = 2 -- Number of spaces to use for autoindent
 
@@ -132,12 +172,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 return {
+  theme,
   oil,
-  auto_session,
   conform,
   comment_nvim,
   comment_ts_context,
-  colorscheme,
+  auto_session,
 
   -- Kickstart plugins
   require 'kickstart.plugins.debug',
