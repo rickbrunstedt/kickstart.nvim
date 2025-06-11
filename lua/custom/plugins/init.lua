@@ -1,35 +1,17 @@
-local lazygit = {
-  'kdheepak/lazygit.nvim',
-  lazy = true,
-  cmd = {
-    'LazyGit',
-    'LazyGitConfig',
-    'LazyGitCurrentFile',
-    'LazyGitFilter',
-    'LazyGitFilterCurrentFile',
-  },
-  -- optional for floating window border decoration
-  dependencies = {
-    'nvim-lua/plenary.nvim',
-  },
-  keys = {
-    { '<leader>wl', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
-  },
-}
-
 local auto_session = {
   'rmagatti/auto-session',
   config = function()
     require('auto-session').setup {
-      auto_session_suppress_dirs = { '~/', '~/Projects', '~/Downloads', '/' },
       session_lens = {
         buftypes_to_ignore = {},
         load_on_setup = true,
-        theme_conf = { border = true },
         previewer = false,
+        theme_conf = {
+          border = true,
+        },
       },
+      suppressed_dirs = { '~/', '~/Projects', '~/Downloads', '/' },
     }
-
     vim.keymap.set('n', '<Leader>wc', require('auto-session.session-lens').search_session, {
       noremap = true,
       desc = 'Change session',
@@ -76,90 +58,11 @@ local comment_ts_context = {
   },
 }
 
-local rayx_go = {
-  'ray-x/go.nvim',
-  dependencies = { -- optional packages
-    'ray-x/guihua.lua',
-    'neovim/nvim-lspconfig',
-    'nvim-treesitter/nvim-treesitter',
-  },
-  config = function()
-    require('go').setup()
-  end,
-  event = { 'CmdlineEnter' },
-  ft = { 'go', 'gomod' },
-  build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
-}
-
 local comment_nvim = {
   'numToStr/Comment.nvim',
   config = function()
     require('Comment').setup().pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook()
   end,
-}
-
-local codecompanion = {
-  'olimorris/codecompanion.nvim',
-  config = function()
-    require('codecompanion').setup {
-      strategies = {
-        chat = {
-          -- adapter = 'openai',
-          adapter = 'ollama',
-        },
-        inline = {
-          -- adapter = 'openai',
-          adapter = 'ollama',
-        },
-      },
-      adapters = {
-        openai = function()
-          return require('codecompanion.adapters').extend('openai', {
-            env = {
-              api_key = os.getenv 'OPEN_API_KEY',
-            },
-            schema = {
-              model = {
-                default = 'gpt-4',
-                -- default = 'gpt-4o',
-              },
-            },
-          })
-        end,
-        deepseek = function()
-          return require('codecompanion.adapters').extend('ollama', {
-            name = 'deepseek-coder', -- Give this adapter a different name to differentiate it from the default ollama adapter
-            schema = {
-              model = {
-                default = 'deepseek-coder:latest',
-              },
-            },
-          })
-        end,
-        ollama = function()
-          return require('codecompanion.adapters').extend('openai_compatible', {
-            env = {},
-          })
-        end,
-      },
-    }
-    -- vim.api.nvim_set_keymap({ 'n', 'v' }, '<C-a>', '<cmd>CodeCompanionActions<cr>', { noremap = true, silent = true })
-    -- vim.api.nvim_set_keymap({ 'n', 'v' }, '<C-a>', '<cmd>CodeCompanionActions<cr>', { noremap = true, silent = true })
-    -- Expand 'cc' into 'CodeCompanion' in the command line
-    vim.cmd [[cab cc CodeCompanion]]
-    vim.api.nvim_set_keymap('n', '<LocalLeader>a', '<cmd>CodeCompanionChat Toggle<cr>', { noremap = true, silent = true })
-    vim.api.nvim_set_keymap('v', '<LocalLeader>a', '<cmd>CodeCompanionChat Toggle<cr>', { noremap = true, silent = true })
-    vim.api.nvim_set_keymap('v', 'ga', '<cmd>CodeCompanionChat Add<cr>', { noremap = true, silent = true })
-  end,
-}
-
-local toggleterm = {
-  'akinsho/toggleterm.nvim',
-  version = '*',
-  opts = {
-    direction = 'float',
-  },
-  vim.keymap.set('n', '<leader>tt', ':ToggleTerm<cr>', { desc = 'Toggle Terminal' }),
 }
 
 require('telescope').setup {
@@ -196,6 +99,13 @@ local colorscheme = {
 }
 
 vim.opt.relativenumber = true
+
+-- Tab settings
+vim.o.expandtab = true -- Use spaces instead of tabs
+vim.o.tabstop = 2 -- Number of visual spaces per TAB
+vim.o.softtabstop = 2 -- Number of spaces in tab when editing
+vim.o.shiftwidth = 2 -- Number of spaces to use for autoindent
+
 -- Write buffer to file with 'Ctrl + s'
 vim.keymap.set('n', '<C-s>', ':update<CR>', { desc = 'Write buffer to file' })
 vim.keymap.set('v', '<C-s>', '<C-C>:update<CR>', { desc = 'Write buffer to file' })
@@ -208,15 +118,31 @@ vim.keymap.set('n', '<leader>sF', function()
   require('telescope.builtin').find_files { hidden = true }
 end, { desc = '[S]earch [F]iles (incl. hidden)' })
 
+vim.api.nvim_create_autocmd('LspAttach', {
+  desc = 'Additional LSP actions',
+  callback = function(event)
+    local opts = { buffer = event.buf }
+
+    -- Additional keybindings that don't conflict with kickstart
+    vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+    vim.keymap.set({ 'n', 'x' }, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
+    vim.keymap.set('n', '<leader>.', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+    vim.keymap.set('n', '<C-.>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+  end,
+})
+
 return {
-  colorscheme,
-  lazygit,
+  oil,
   auto_session,
   conform,
-  comment_ts_context,
-  rayx_go,
   comment_nvim,
-  toggleterm,
-  codecompanion,
-  oil,
+  comment_ts_context,
+  colorscheme,
+
+  -- Kickstart plugins
+  require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.autopairs',
+  -- require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.gitsigns',
 }
